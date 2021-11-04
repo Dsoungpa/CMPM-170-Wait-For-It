@@ -89,6 +89,7 @@ while(true){
     for (let res in resources)
         console.log(res)
     console.log("curr pop " + totPop + " avail pop " + availPop)
+    console.log("close zombies/total zombies " + closeZom + "/" + totZom)
 }
 
 //Function for manually assigning population to a task
