@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<title> Zombie Idle Game</title>
+<head>
+<style>
+.button {
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.ScavengeFoodButtonSet {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+  position: absolute;
+  top: 200px;
+  left: 440px;
+}
+
+.ScavengeFoodButtonSet:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+.ScavengeMaterialsSet {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+  position: absolute;
+  top: 200px;
+  left: 750px;
+
+}
+
+.ScavengeMaterialsSet:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+.ScareZombiesSet {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #ff0015;
+  position: absolute;
+  top: 200px;
+  left: 1065px;
+
+}
+
+.ScareZombiesSet:hover {
+  background-color: #ff0015;
+  color: white;
+}
+
+.CureZombieSet {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #62fff2;
+  position: absolute;
+  top: 200px;
+  left: 1370px;
+
+}
+
+.CureZombieSet:hover {
+  background-color: #62fff2;
+  color: white;
+}
+
+</style>
+
+</head>
+<body>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;">Scavenge <br /> Food</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;">Scavenge <br /> Building Materials</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;">Scare <br /> Zombies</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;">Cure <br /> Zombies</div>
+    <button class="button ScavengeFoodButtonSet">SET</button>
+    <button class="button ScavengeMaterialsSet">SET</button>
+    <button class="button ScareZombiesSet">SET</button>
+    <button class="button CureZombieSet">SET</button>
+
+    <p style="position: absolute; Top: 140px;left: 400px">
+        <b>Humans Scavenging Food: </b>
+        <br>
+        <input type="number">
+    </p>
+
+    <p style="position: absolute; Top: 140px;left: 680px">
+        <b>Humans Scavenging Buidling Materials: </b>
+        <br>
+        <input type="number">
+    </p>
+
+    <p style="position: absolute; Top: 140px;left:1025px">
+        <b>Humans Scaring Zombies: </b>
+        <br>
+        <input type="number">
+    </p>
+
+    <p style="position: absolute; Top: 140px;left:1325px">
+      <b>Zombies to Cure: </b>
+      <br>
+      <input type="number">
+  </p>
+    
+    <!-- Need to change the 0 in this line to a variable to change for the amount of humans */ -->
+    <div style="width:300px;height:25px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px;top: 10px"><b>Amount of Humans:</b> 0</div>
+    <!-- Need to change the 0 in this line to a variable to change for the amount of zombies */ -->
+    <div style="width:300px;height:40px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px; top: 50px"><b>Amount of Zombies:</b> 0 <br/><b>Local Zombies:</b> 0  </div>
+    <!-- Need to change the 0 in this line to a variable to change for th amount of medicine */ -->
+    <div style="width:300px;height:25px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px; top: 105px"><b>Amount of Medicine:</b> 0</div>
+
+    <!-- Need to change the 0 in this line to a variable to change for the amount of food per sec */ -->
+    <div style="width:300px;height:25px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px;top: 145px"><b>Food Rate:</b> 0 f/s</div>
+    <!-- Need to change the 0 in this line to a variable to change for the amount of material per sec */ -->
+    <div style="width:300px;height:40px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px; top: 185px"><b>Material Rate:</b> 0 m/s<br/> </div>
+    <!-- Need to change the 0 in this line to a variable to change for th amount of zombies able to scare */ -->
+    <div style="width:300px;height:25px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px; top: 240px"><b>Scare Limit:</b> 0</div>
+
+</body>
+
+</html>
