@@ -61,16 +61,32 @@ let availPop = 0;
 let closeZom = 0;
 let totZom = 100000;
 let zomTime = 0;
+let rollTimer = 0
 while(true){
+    rollTimer += 0.01;
     //Add the resources from the last tick
     occupations.forEach((val) => {
         if(val.Enabled && val.Assigned > 0)
             val.Products.forEach((gainObj) => {
-                //Need to figure out a way to roll per assigned person without making it awful
-                if(Math.random() < gainObj.chance)
-                    resources[gainObj.resource] += gainObj.quant * val.Assigned
+                if(1== gainObj.chance)
+                    resources[gainObj.resource] += gainObj.quant * val.Assigned * 0.01
+                //Handles repeated rolling for chance-based thing
+                //Each 10th of the assigned units gets 1 roll
+                //Roll only once every second (for now 1 second = 100 ticks)
+                else if(rollTimer >= 1){
+                    //Make sure that if we have less than 10 assigned we do that number of rolls
+                    let numRolls = Math.min(val.Assigned, 10);
+                    //Similarly, make sure we have a whole number (min 1) gains per success
+                    let successfulUnits = Math.max(1, Math.floor(val.Assigned/10))
+                    for(let i = 0; i < numRolls; i++){
+                        if(Math.random() < gainObj.chance)
+                            resources[gainObj.resource] += gainObj.quant * successfulUnits
+                    }
+                }
             })
     })
+    if(rollTimer >= 1)
+        rollTimer = 0;
     //handles zombie arrivals
     zomTime += 0.01;
     if(zomTime >= 30/Math.max(totPop, 1)){
