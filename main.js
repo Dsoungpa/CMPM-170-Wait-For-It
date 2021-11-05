@@ -56,13 +56,14 @@ let  protecting = {
 }
 
 let occupations = [foodScav, matScav, protecting]
-let totPop = 0;
-let availPop = 0;
+let totPop = 3;
+let availPop = 3;
 let closeZom = 0;
 let totZom = 100000;
 let zomTime = 0;
 let rollTimer = 0
-while(true){
+
+while(false){
     rollTimer += 0.01;
     //Add the resources from the last tick
     occupations.forEach((val) => {
@@ -87,6 +88,7 @@ while(true){
     })
     if(rollTimer >= 1)
         rollTimer = 0;
+    resources.food -= totPop * 0.02;
     //handles zombie arrivals
     zomTime += 0.01;
     if(zomTime >= 30/Math.max(totPop, 1)){
@@ -112,17 +114,22 @@ while(true){
 //Index for which to add is defined by the button/function call
 //Used for both adding and subtracting
 /**
- * @param numAssign: {Number}
- * @param occupationAdded : {Occupation}
+ * @param numAssign: {Object}
+ * @param occupationAdded : {Number}
  */
 function assignPop(numAssign, occupationAdded){
+    //Get the number we're assigning
+    let baseAssign = parseInt(numAssign.getElementsByTagName("input")[0].value);
     //If there's not enough population to assign, assign as many as possible
     //Obviously this check won't matter if we're taking away (numAssign negative)
-    let actAssign = Math.min(numAssign, availPop)
+    console.log(baseAssign)
+    let actAssign = Math.min(baseAssign, availPop)
+    console.log(actAssign)
     //If we are negative though, we can't take away more people than are assigned
-    actAssign = Math.max(actAssign, -occupationAdded.Assigned)
-    occupationAdded.Assigned += actAssign;
+    actAssign = Math.max(actAssign, -occupations[occupationAdded].Assigned)
+    occupations[occupationAdded].Assigned += actAssign;
     availPop -= actAssign;
+    console.log(occupations[occupationAdded].Assigned)
 }
 
 //Function for curing population
@@ -134,4 +141,9 @@ function cureZombie(){
         closeZom -= 1;
         totZom -= 1;
     }
+}
+
+while(false){
+    for (let occ in occupations)
+        console.log(occ)
 }

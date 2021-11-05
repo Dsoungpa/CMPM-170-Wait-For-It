@@ -77,37 +77,37 @@
 }
 
 </style>
-
+<script src ="main.js"></script>
 </head>
 <body>
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;">Scavenge <br /> Food</div>
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;">Scavenge <br /> Building Materials</div>
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;">Scare <br /> Zombies</div>
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;">Cure <br /> Zombies</div>
-    <button class="button ScavengeFoodButtonSet">SET</button>
-    <button class="button ScavengeMaterialsSet">SET</button>
-    <button class="button ScareZombiesSet">SET</button>
-    <button class="button CureZombieSet">SET</button>
+    <button class="button ScavengeFoodButtonSet" onclick="assignPop(fodAssign, 0)">SET</button>
+    <button class="button ScavengeMaterialsSet" onclick="assignPop(buildAssign, 1)">SET</button>
+    <button class="button ScareZombiesSet" onclick="assignPop(scareAssign, 2)">SET</button>
+    <button class="button CureZombieSet" onclick="assignPop(fodAssign, 0)">SET</button>
 
-    <p style="position: absolute; Top: 140px;left: 400px">
+    <p style="position: absolute; Top: 140px;left: 400px" id="fodAssign">
         <b>Humans Scavenging Food: </b>
         <br>
         <input type="number">
     </p>
 
-    <p style="position: absolute; Top: 140px;left: 680px">
+    <p style="position: absolute; Top: 140px;left: 680px" id="buildAssign">
         <b>Humans Scavenging Buidling Materials: </b>
         <br>
         <input type="number">
     </p>
 
-    <p style="position: absolute; Top: 140px;left:1025px">
+    <p style="position: absolute; Top: 140px;left:1025px" id="scareAssign">
         <b>Humans Scaring Zombies: </b>
         <br>
         <input type="number">
     </p>
 
-    <p style="position: absolute; Top: 140px;left:1325px">
+    <p style="position: absolute; Top: 140px;left:1325px" id="cureAssign">
       <b>Zombies to Cure: </b>
       <br>
       <input type="number">
