@@ -44,7 +44,7 @@ let foodScav = {
 /** @type {Occupation} */
 let matScav = {
     Name: "Material Scavaging",
-    Products: [{ resource: "food", quant: 0.25, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
+    Products: [{ resource: "materials", quant: 0.25, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
     Enabled: true,
     Assigned: 0
 }
@@ -107,14 +107,14 @@ function gameLoop() {
     for (const resourceC in resourceChanges)
         resourceChanges[resourceC] = resourceChanges[resourceC].toFixed(2)
     //handles zombie arrivals
-    zomTime += tickRate;
+    zomTime += tickRate/1000;
     if (zomTime >= 30 / Math.max(totPop, 1)) {
         zomTime = 0;
         closeZom += 1;
     }
     //And being driven off
     //slightly more complex than it needs to be to deal with having many kicking zombies out
-    if (resources.driven >= 1) {
+    if (resources.driven >= 1 && closeZom >= 1) {
         closeZom -= Math.min(Math.floor(resources.driven), closeZom)
         resources.driven = 0;
     }
@@ -161,12 +161,13 @@ function updateHuman() {
 
 function updateZombie() {
     let zombie = document.getElementById("zombie");
-    zombie.innerHTML = totZom.toString();
+    zombie.innerHTML = closeZom .toString();
 }
 
 function updateMed() {
     let med = document.getElementById("medicine");
     med.innerHTML = resources.medicine.toString();
+    
 }
 
 function updateFood() {
@@ -179,6 +180,15 @@ function updateFood() {
 function updateMaterials() {
     let mat = document.getElementById("material");
     mat.innerHTML = resources.materials.toString();
+    let mRate = document.getElementById("matRate");
+    mRate.innerHTML = resourceChanges.materials + "/s"
+}
+
+function updateScare() {
+    let scar = document.getElementById("scare");
+    scar.innerHTML = resources.driven.toString();
+    let sRate = document.getElementById("scaRate");
+    sRate.innerHTML = resourceChanges.driven + "/s"
 }
 
 
@@ -188,6 +198,8 @@ function updateNums() {
     updateMed();
     updateFood();
     updateMaterials()
+    updateScare();
+    console.log(resourceChanges.materials)
 }
 
 gameLoop();
