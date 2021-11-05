@@ -76,8 +76,29 @@
   color: white;
 }
 
+.resource {
+  display: table;
+}
+
+.resource-container {
+  border: 3px;
+  width: 300px;
+  height: 30px;
+  outline: thin solid;
+  padding: 5px;
+  display: table-row;
+}
+
+.resource-child {
+  width: 100px;
+  height: 100%;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  padding: 3px;
+}
+
 </style>
-<script src ="main.js"></script>
 </head>
 <body>
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;">Scavenge <br /> Food</div>
@@ -111,22 +132,42 @@
       <b>Zombies to Cure: </b>
       <br>
       <input type="number">
-  </p>
+    </p>
     
-    <!-- Need to change the 0 in this line to a variable to change for the amount of humans */ -->
-    <div style="width:300px;height:25px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px;top: 10px"><b>Amount of Humans:</b> 0</div>
-    <!-- Need to change the 0 in this line to a variable to change for the amount of zombies */ -->
-    <div style="width:300px;height:40px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px; top: 50px"><b>Amount of Zombies:</b> 0 <br/><b>Local Zombies:</b> 0  </div>
-    <!-- Need to change the 0 in this line to a variable to change for th amount of medicine */ -->
-    <div style="width:300px;height:25px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px; top: 105px"><b>Amount of Medicine:</b> 0</div>
+    <div class="resource">
+      <div class="resource-container">
+        <div class="resource-child"> <b>Humans:</b> </div>
+        <div class="resource-child" id="human"> 0 / 0 </div>
+      </div>
 
-    <!-- Need to change the 0 in this line to a variable to change for the amount of food per sec */ -->
-    <div style="width:300px;height:25px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px;top: 145px"><b>Food Rate:</b> 0 f/s</div>
-    <!-- Need to change the 0 in this line to a variable to change for the amount of material per sec */ -->
-    <div style="width:300px;height:40px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px; top: 185px"><b>Material Rate:</b> 0 m/s<br/> </div>
-    <!-- Need to change the 0 in this line to a variable to change for th amount of zombies able to scare */ -->
-    <div style="width:300px;height:25px;text-align:left;padding: 5px 5px;border:1px solid #000;position: absolute;left: 10px; top: 240px"><b>Scare Limit:</b> 0</div>
+      <div class="resource-container">
+        <div class="resource-child"> <b>Zombies:</b> </div>
+        <div class="resource-child" id="zombie"> 0 </div>
+        <div class="resource-child" id="zombieRate"> </div>
+      </div>
 
+      <div class="resource-container">
+        <div class="resource-child"><b>Medicine:</b> </div>
+        <div class="resource-child" id="medicine"> 0</div>
+      </div>
+
+      <div class="resource-container">
+        <div class="resource-child"><b>Food:</b> </div>
+        <div class="resource-child" id="food"> 0</div>
+        <div class="resource-child" id="foodRate"> +0/s </div>
+      </div>
+      
+      <div class="resource-container">
+        <div class="resource-child"> <b>Materials:</b> </div>
+        <div class="resource-child" id="material"> 0 </div>
+        <div class="resource-child" id="matRate"></div>
+      </div>
+
+      <div class="resource-container">
+        <div class="resource-child"><b>Scare:</b> </div>
+        <div class="resource-child" id="scare"> 0</div>
+      </div>
+    </div>
 </body>
-
+<script src ="main.js"></script>
 </html>
