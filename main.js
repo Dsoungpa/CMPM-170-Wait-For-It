@@ -153,18 +153,18 @@ function assignPop(numAssign, occupationAdded) {
     actAssign = Math.max(actAssign, -occupations[occupationAdded].Assigned)
     occupations[occupationAdded].Assigned += actAssign;
     availPop -= actAssign;
-    console.log(occupations[occupationAdded].Assigned)
     updateNums();
 }
 
 //Function for curing population
 function cureZombie() {
-    if (resources.medicine >= 1 && closeZom >= 1) {
-        resources.medicine -= 1;
-        availPop += 1;
-        totPop += 1;
-        closeZom -= 1;
-        totZom -= 1;
+    let numCure = parseInt(document.getElementById("cureAssign").getElementsByTagName("input")[0].value);
+    if (resources.medicine >= numCure && closeZom >= numCure) {
+        resources.medicine -= numCure;
+        availPop += numCure;
+        totPop += numCure;
+        closeZom -= numCure;
+        totZom -= numCure;
     }
 }
 
