@@ -16,6 +16,19 @@
   cursor: pointer;
 }
 
+.upbutton {
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
 .ScavengeFoodButtonSet {
   background-color: white; 
   color: black; 
@@ -76,6 +89,80 @@
   color: white;
 }
 
+.BuildFarm {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+  position: absolute;
+  top: 5px;
+  right: 150px;
+}
+
+.BuildFarm:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+
+.BuildWare {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+  position: absolute;
+  top: 110px;
+  right: 125px;
+}
+
+.BuildWare:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+
+.BuildMed {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #62fff2;
+  position: absolute;
+  top: 410px;
+  right: 120px;
+}
+
+.BuildMed:hover {
+  background-color: #62fff2;
+  color: white;
+}
+
+.Workshop {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+  position: absolute;
+  top: 210px;
+  right: 125px;
+}
+
+.Workshop:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+.Storage {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+  position: absolute;
+  top: 310px;
+  right: 130px;
+}
+
+.Storage:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
 .resource {
   display: table;
 }
@@ -98,17 +185,18 @@
   padding: 3px;
 }
 
+
 </style>
 </head>
 <body>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;">Scavenge <br /> Food</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;">Scavenge <br /> Building Materials</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;">Scare <br /> Zombies</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;">Cure <br /> Zombies</div>
-    <button class="button ScavengeFoodButtonSet" onclick="assignPop(fodAssign, 0)">SET</button>
-    <button class="button ScavengeMaterialsSet" onclick="assignPop(buildAssign, 1)">SET</button>
-    <button class="button ScareZombiesSet" onclick="assignPop(scareAssign, 2)">SET</button>
-    <button class="button CureZombieSet" onclick="assignPop(fodAssign, 0)">SET</button>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;">Scavenge <br /> Food <br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;">Scavenge <br /> Building Materials <br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;">Scare <br /> Zombies <br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;">Cure <br /> Zombies <br><br> Humans: 0</div>
+    <button class="button ScavengeFoodButtonSet" onclick="assignPop(fodAssign, 0)">SEND</button>
+    <button class="button ScavengeMaterialsSet" onclick="assignPop(buildAssign, 1)">SEND</button>
+    <button class="button ScareZombiesSet" onclick="assignPop(scareAssign, 2)">SEND</button>
+    <button class="button CureZombieSet" onclick="assignPop(fodAssign, 0)">CURE</button>
 
     <p style="position: absolute; Top: 140px;left: 400px" id="fodAssign">
         <b>Humans Scavenging Food: </b>
@@ -133,6 +221,26 @@
       <br>
       <input type="number">
     </p>
+
+    <!--These will appear when unlocked/bought -->
+    <!--Need to replace levels with Values -->
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 400px;"> Farm <br> <br> Amount 1</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 400px;"> Warehouse <br> <br> Amount 1</div>
+
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 710px;"> Workshop <br> <br> Amount 1</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 710px;"> Storage <br> <br> Amount 1</div>
+
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 1000px;">Medstation <br> <br> Amount 1</div>
+
+    <!--Buy/Upgrades-->
+    <!--Need to replace rate percentages and amount of materials with Values -->
+    <button class="upbutton BuildFarm"> Build Farm (+%)<br> <br> 100 Materials</button>
+    <button class="upbutton BuildWare"> Build Warehouse (+%)<br> <br> 100 Materials</button>
+    <button class="upbutton BuildMed"> Build Medstation (+%)<br> <br> 100 Materials</button>
+    <button class="upbutton Workshop"> Build Workshop (+%)<br> <br> 100 Materials</button>
+    <button class="upbutton Storage"> Build Storage (+%)<br> <br> 100 Materials</button>
+
+
     
     <div class="resource">
       <div class="resource-container">
