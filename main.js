@@ -237,13 +237,14 @@ function assignPop(numAssign, occupationAdded) {
 //Function for curing population
 function cureZombie() {
     let numCure = parseInt(document.getElementById("cureAssign").getElementsByTagName("input")[0].value);
-    if (resources.medicine >= numCure && closeZom >= numCure) {
-        resources.medicine -= numCure;
-        availPop += numCure;
-        totPop += numCure;
-        closeZom -= numCure;
-        totZom -= numCure;
-    }
+    //Can't use more medicine than we have or cure more zombies than are around
+    numCure = Math.min(resources.medicine, numCure)
+    numCure = Math.max(closeZom, numCure)
+    resources.medicine -= numCure;
+    availPop += numCure;
+    totPop += numCure;
+    closeZom -= numCure;
+    totZom -= numCure;
 }
 
 function updateHuman() {
