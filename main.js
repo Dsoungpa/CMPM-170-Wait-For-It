@@ -253,13 +253,12 @@ function updateHuman() {
 
 function updateZombie() {
     let zombie = document.getElementById("zombie");
-    zombie.innerHTML = closeZom .toString();
+    zombie.innerHTML = closeZom.toString();
 }
 
 function updateMed() {
     let med = document.getElementById("medicine");
     med.innerHTML = resources.medicine.toString();
-    
 }
 
 function updateFood() {
@@ -271,7 +270,7 @@ function updateFood() {
 
 function updateMaterials() {
     let mat = document.getElementById("material");
-    mat.innerHTML = resources.materials.toString();
+    mat.innerHTML = (Math.round(resources.materials * 100) / 100).toString();
     let mRate = document.getElementById("matRate");
     mRate.innerHTML = resourceChanges.materials + "/s"
 }
