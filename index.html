@@ -224,21 +224,21 @@
 
     <!--These will appear when unlocked/bought -->
     <!--Need to replace levels with Values -->
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 400px;"> Farm <br> <br> Amount 1</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 400px;"> Warehouse <br> <br> Amount 1</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 400px;" id= "farmD"> Farm <br> <br> Amount 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 400px;" id= "wareD"> Warehouse <br> <br> Amount 0</div>
 
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 710px;"> Workshop <br> <br> Amount 1</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 710px;"> Storage <br> <br> Amount 1</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 710px;" id= "workD"> Workshop <br> <br> Amount 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 710px;" id= "storD"> Storage <br> <br> Amount 0</div>
 
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 1000px;">Medstation <br> <br> Amount 1</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 1000px;" id= "medD">Medstation <br> <br> Amount 0</div>
 
     <!--Buy/Upgrades-->
     <!--Need to replace rate percentages and amount of materials with Values -->
-    <button class="upbutton BuildFarm"> Build Farm (+%)<br> <br> 100 Materials</button>
-    <button class="upbutton BuildWare"> Build Warehouse (+%)<br> <br> 100 Materials</button>
-    <button class="upbutton BuildMed"> Build Medstation (+%)<br> <br> 100 Materials</button>
-    <button class="upbutton Workshop"> Build Workshop (+%)<br> <br> 100 Materials</button>
-    <button class="upbutton Storage"> Build Storage (+%)<br> <br> 100 Materials</button>
+    <button class="upbutton BuildFarm"  onclick="buildBuilding(farm, farmB, farmD)" id="farmB"> Build Farm (+15%)<br> <br> 100 Materials</button>
+    <button class="upbutton BuildWare" onclick="buildBuilding(warehouse, wareB, wareD)" id="wareB"> Build Warehouse (+100/50/2)<br> <br> 120 Materials</button>
+    <button class="upbutton BuildMed" onclick="buildBuilding(medstation, medB, medD)" id="medB"> Build Medstation (+50%)<br> <br> 250 Materials</button>
+    <button class="upbutton Workshop" onclick="buildBuilding(workshop, workB, workD)" id="workB"> Build Workshop (+20%)<br> <br> 125 Materials</button>
+    <button class="upbutton Storage" onclick="buildBuilding(storage, storB, storD)" id="storB"> Build Storage (+50/100/5)<br> <br> 150 Materials</button>
 
 
     

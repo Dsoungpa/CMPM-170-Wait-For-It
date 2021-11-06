@@ -27,12 +27,37 @@
 * }} Occupation
 */
 
+//Definition of object holding how an upgrade affects a resource
+/**
+ * @typedef {{
+ * resource: String,
+ * mult: Number,
+ * storage: Number
+ * }}InvMod
+ */
+
+//Definition of buildings
+/**
+ * @typedef {{
+ * Name: String,
+ * Mods: InvMod[],
+ * Enabled: Boolean,
+ * BaseCost: Number,
+ * CostScale: Number,
+ * Owned: Number
+ * }} Building
+ */
+//change BastCost to a list of key/value pairs to have more varied costs than just resources
 //Base resources object
 //Driven is a "fake" number used to represent driving off zombies (1 leaves when it hits 1)
 //Code is simpler with it included here
 let resources = { food: 20, materials: 30, medicine: 3, driven: 0};
 //Also store the change in each resource
 let resourceChanges = { food: 0, materials: 0, medicine: 0, driven: 0 };
+//And the multipliers to the production of each
+let resourceMults = {food: 0, materials: 0, medicine: 0, driven: 0}
+//And the caps for the resources
+let resourceCaps = {food: 100, materials: 150, medicine: 20, driven: 20}
 //Occupations
 /** @type {Occupation} */
 let foodScav = {
@@ -70,11 +95,63 @@ let curing = {
     Assigned: 0
 }
 
+//Defining all the buildings here
+/** @type {Building} */
+let farm = {
+    Name: "Farm",
+    Mods: [{resource: "food", mult: 0.15, storage: 0}],
+    Enabled: true,
+    BaseCost: 100,
+    CostScale: 1.2,
+    Owned: 0
+}
+
+/** @type {Building} */
+let warehouse = {
+    Name: "Warehouse",
+    Mods: [{resource: "food", mult: 0, storage: 100}, {resource: "materials", mult: 0, storage: 50},
+        {resource: "medicine", mult: 0, storage: 2}],
+    BaseCost: 120,
+    CostScale: 1.1,
+    Enabled: true,
+    Owned: 0
+}
+
+/** @type {Building} */
+let workshop = {
+    Name: "Workshop",
+    Mods: [{resource: "materials", mult: 0.2, storage: 0}],
+    Enabled: true,
+    BaseCost: 125,
+    CostScale: 1.25,
+    Owned: 0
+}
+
+/** @type {Building} */
+let storage = {
+    Name: "Storage",
+    Mods: [{resource: "food", mult: 0, storage: 50}, {resource: "materials", mult: 0, storage: 100},
+        {resource: "medicine", mult: 0, storage: 5}],
+    Enabled: true,
+    BaseCost: 150,
+    CostScale: 1.2,
+    Owned: 0
+}
+
+/** @type {Building} */
+let medstation = {
+    Name: "Medstation",
+    Mods: [{resource: "medicine", mult: 0.5, storage: 5}],
+    Enabled: true,
+    BaseCost: 250,
+    CostScale: 1.2,
+    Owned: 0
+}
 
 //How long it takes for an update tick to happen(in ms)
 let tickRate = 1000;
 
-let occupations = [foodScav, matScav, protecting]
+let occupations = [foodScav, matScav, protecting, curing]
 let totPop = 3;
 let availPop = 3;
 let closeZom = 0;
@@ -92,8 +169,8 @@ function gameLoop() {
         if (val.Enabled && val.Assigned > 0)
             val.Products.forEach((gainObj) => {
                 if (1 == gainObj.chance){
-                    resources[gainObj.resource] += gainObj.quant * val.Assigned
-                    resourceChanges[gainObj.resource] += gainObj.quant * val.Assigned
+                    resources[gainObj.resource] += gainObj.quant * val.Assigned * (1 + resourceMults[gainObj.resource])
+                    resourceChanges[gainObj.resource] += gainObj.quant * val.Assigned * (1 + resourceMults[gainObj.resource])
                 }
                 //Handles repeated rolling for chance-based thing
                 //Each 10th of the assigned units gets 1 roll
@@ -103,8 +180,9 @@ function gameLoop() {
                     let numRolls = Math.min(val.Assigned, 10);
                     //Similarly, make sure we have a whole number (min 1) gains per success
                     let successfulUnits = Math.max(1, Math.floor(val.Assigned / 10))
+                    //Gainer increases increase chance here, not quantity
                     for (let i = 0; i < numRolls; i++) {
-                        if (Math.random() < gainObj.chance){
+                        if (Math.random() < gainObj.chance * (1 + resourceMults[gainObj.resource])){
                             resources[gainObj.resource] += gainObj.quant * successfulUnits
                             resourceChanges[gainObj.resource] += gainObj.quant * successfulUnits
                         }
@@ -115,8 +193,8 @@ function gameLoop() {
     resources.food += foodRate;
     resourceChanges.food += foodRate
     for (const resource in resources){
-        if(resources[resource] < 0)
-            resources[resource] = 0
+        resources[resource] = Math.min(0, resources[resource])
+        resources[resource] = Math.max(resources[resource], resourceCaps[resource])
     }
     for (const resourceC in resourceChanges)
         resourceChanges[resourceC] = resourceChanges[resourceC].toFixed(2)
@@ -204,7 +282,34 @@ function updateScare() {
     let sRate = document.getElementById("scaRate");
     sRate.innerHTML = resourceChanges.driven + "/s"
 }
-
+//Handles building of things
+/**
+ * 
+ * @param {Building} toBuild 
+ */
+function buildBuilding(toBuild, initiatingButton, displayObj){
+    if(toBuild.Enabled){
+        if(resources.materials >= toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned)){
+            toBuild.Mods.forEach((mod) => {
+                resourceCaps[mod.resource] += mod.storage
+                resourceMults[mod.resource] += mod.mult
+            })
+            resources.materials -= toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned)
+            toBuild.Owned += 1
+            //Need to figure out what benefit to display
+            let valToShow = ""
+            if(toBuild.Mods[0].mult != 0)
+                valToShow = "" + toBuild.Mods[0].mult + "%"
+            else{
+                valToShow += toBuild.Mods[0].storage;
+                for(let i = 1; i < toBuild.Mods.length; i++)
+                    valToShow += "/"+ toBuild.Mods[i].storage
+            }
+            initiatingButton.innerHTML = " Build "+toBuild.Name+" (+"+valToShow+")<br> <br> "+ Math.round(toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned)*100)/100 +" Materials"
+            displayObj.innerHTML = " "+toBuild.Name+" <br> <br> Amount "+ toBuild.Owned
+        }
+    }
+}
 
 function updateNums() {
     updateHuman();
