@@ -21,6 +21,7 @@
 * @typedef {{
 * Name: String,
 * Products: InvGain[],
+* Requirements: Object[],
 * Enabled: Boolean,
 * Assigned: Number
 * }} Occupation
@@ -29,7 +30,7 @@
 //Base resources object
 //Driven is a "fake" number used to represent driving off zombies (1 leaves when it hits 1)
 //Code is simpler with it included here
-let resources = { food: 20, materials: 30, medicine: 3, driven: 0 };
+let resources = { food: 20, materials: 30, medicine: 3, driven: 0};
 //Also store the change in each resource
 let resourceChanges = { food: 0, materials: 0, medicine: 0, driven: 0 };
 //Occupations
@@ -37,6 +38,7 @@ let resourceChanges = { food: 0, materials: 0, medicine: 0, driven: 0 };
 let foodScav = {
     Name: "Food Scavaging",
     Products: [{ resource: "food", quant: 0.25, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
+    Requirements: [],
     Enabled: true,
     Assigned: 0
 }
@@ -45,6 +47,7 @@ let foodScav = {
 let matScav = {
     Name: "Material Scavaging",
     Products: [{ resource: "materials", quant: 0.25, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
+    Requirements: [],
     Enabled: true,
     Assigned: 0
 }
@@ -53,9 +56,20 @@ let matScav = {
 let protecting = {
     Name: "Scaring off zombies",
     Products: [{ resource: "driven", quant: 0.2, chance: 1 }],
+    Requirements: [],
     Enabled: true,
     Assigned: 0
 }
+//Pretty much everything about curing has to be special cased because it deals with resources outside of the resources object
+/** @type {Occupation} */
+let curing = {
+    Name: "Scaring off zombies",
+    Products: [],
+    Requirements: [],
+    Enabled: true,
+    Assigned: 0
+}
+
 
 //How long it takes for an update tick to happen(in ms)
 let tickRate = 1000;
