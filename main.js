@@ -193,8 +193,8 @@ function gameLoop() {
     resources.food += foodRate;
     resourceChanges.food += foodRate
     for (const resource in resources){
-        resources[resource] = Math.min(0, resources[resource])
-        resources[resource] = Math.max(resources[resource], resourceCaps[resource])
+        resources[resource] = Math.max(0, resources[resource])
+        resources[resource] = Math.min(resources[resource], resourceCaps[resource])
     }
     for (const resourceC in resourceChanges)
         resourceChanges[resourceC] = resourceChanges[resourceC].toFixed(2)
