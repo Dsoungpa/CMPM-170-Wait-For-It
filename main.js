@@ -221,9 +221,13 @@ function gameLoop() {
  * @param numAssign: {Object}
  * @param occupationAdded : {Number}
  */
-function assignPop(numAssign, occupationAdded) {
+function assignPop(numAssign, occupationAdded, assignmentRecord) {
     //Get the number we're assigning
     let baseAssign = parseInt(numAssign.getElementsByTagName("input")[0].value);
+    //Make sure it exists
+    console.log(baseAssign)
+    if(isNaN(baseAssign))
+        return
     //If there's not enough population to assign, assign as many as possible
     //Obviously this check won't matter if we're taking away (numAssign negative)
     let actAssign = Math.min(baseAssign, availPop)
@@ -231,6 +235,8 @@ function assignPop(numAssign, occupationAdded) {
     actAssign = Math.max(actAssign, -occupations[occupationAdded].Assigned)
     occupations[occupationAdded].Assigned += actAssign;
     availPop -= actAssign;
+    let currAssigned = occupations[occupationAdded].Assigned;
+    assignmentRecord.innerHTML = assignmentRecord.innerHTML.slice(0, assignmentRecord.innerHTML.length - (currAssigned-actAssign).toString().length) + currAssigned
     updateNums();
 }
 
@@ -245,6 +251,7 @@ function cureZombie() {
     totPop += numCure;
     closeZom -= numCure;
     totZom -= numCure;
+    updateNums();
 }
 
 function updateHuman() {
@@ -259,26 +266,28 @@ function updateZombie() {
 
 function updateMed() {
     let med = document.getElementById("medicine");
-    med.innerHTML = resources.medicine.toString();
+    med.innerHTML = resources.medicine.toString() +"/"+ resourceCaps.medicine;
+    let fRate = document.getElementById("medRate");
+    fRate.innerHTML = resourceChanges.medicine + "/s"
 }
 
 function updateFood() {
     let food = document.getElementById("food");
-    food.innerHTML = (Math.round(resources.food * 100) / 100).toString();
+    food.innerHTML = (Math.round(resources.food * 100) / 100).toString() +"/"+ resourceCaps.food;
     let fRate = document.getElementById("foodRate");
     fRate.innerHTML = resourceChanges.food + "/s"
 }
 
 function updateMaterials() {
     let mat = document.getElementById("material");
-    mat.innerHTML = (Math.round(resources.materials * 100) / 100).toString();
+    mat.innerHTML = (Math.round(resources.materials * 100) / 100).toString() +"/"+ resourceCaps.materials;
     let mRate = document.getElementById("matRate");
     mRate.innerHTML = resourceChanges.materials + "/s"
 }
 
 function updateScare() {
     let scar = document.getElementById("scare");
-    scar.innerHTML = resources.driven.toString();
+    scar.innerHTML = resources.driven.toString() +"/"+ resourceCaps.driven;
     let sRate = document.getElementById("scaRate");
     sRate.innerHTML = resourceChanges.driven + "/s"
 }

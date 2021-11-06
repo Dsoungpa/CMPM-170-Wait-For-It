@@ -189,13 +189,13 @@
 </style>
 </head>
 <body>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;">Scavenge <br /> Food <br><br> Humans: 0</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;">Scavenge <br /> Building Materials <br><br> Humans: 0</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;">Scare <br /> Zombies <br><br> Humans: 0</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;">Cure <br /> Zombies <br><br> Humans: 0</div>
-    <button class="button ScavengeFoodButtonSet" onclick="assignPop(fodAssign, 0)">SEND</button>
-    <button class="button ScavengeMaterialsSet" onclick="assignPop(buildAssign, 1)">SEND</button>
-    <button class="button ScareZombiesSet" onclick="assignPop(scareAssign, 2)">SEND</button>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;" id="foodAssigned">Scavenge <br /> Food <br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;" id="matAssigned">Scavenge <br /> Building Materials <br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;" id="scareAssigned">Scare <br /> Zombies <br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;" id="cureAssigned">Cure <br /> Zombies <br><br> Humans: 0</div>
+    <button class="button ScavengeFoodButtonSet" onclick="assignPop(fodAssign, 0, foodAssigned)">SEND</button>
+    <button class="button ScavengeMaterialsSet" onclick="assignPop(buildAssign, 1, matAssigned)">SEND</button>
+    <button class="button ScareZombiesSet" onclick="assignPop(scareAssign, 2, scareAssigned)">SEND</button>
     <button class="button CureZombieSet" onclick="cureZombie()">CURE</button>
 
     <p style="position: absolute; Top: 140px;left: 400px" id="fodAssign">
@@ -257,6 +257,7 @@
       <div class="resource-container">
         <div class="resource-child"><b>Medicine:</b> </div>
         <div class="resource-child" id="medicine"> 0</div>
+        <div class="resource-child" id="medRate"> </div>
       </div>
 
       <div class="resource-container">
