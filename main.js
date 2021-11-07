@@ -216,6 +216,7 @@ function gameLoop() {
         for (let resource in resources)
             resources[resource] *= 0.1
         alert("You have been attacked by zombies! Assign people to scare off zombies or cure neaby zombies to prevent the local zombies from building up, to avoid this happening again.")
+        closeZom = 0;
     }
     updateNums();
 }
