@@ -35,7 +35,7 @@
   border: 2px solid #4CAF50;
   position: absolute;
   top: 200px;
-  left: 440px;
+  left: 420px;
 }
 
 .ScavengeFoodButtonSet:hover {
@@ -47,15 +47,15 @@
 .ScavengeMaterialsSet {
   background-color: white; 
   color: black; 
-  border: 2px solid #008CBA;
+  border: 2px solid #eeb740;
   position: absolute;
   top: 200px;
-  left: 750px;
+  left: 730px;
 
 }
 
 .ScavengeMaterialsSet:hover {
-  background-color: #008CBA;
+  background-color: #e98c13;
   color: white;
 }
 
@@ -65,7 +65,7 @@
   border: 2px solid #ff0015;
   position: absolute;
   top: 200px;
-  left: 1065px;
+  left: 1045px;
 
 }
 
@@ -75,12 +75,12 @@
 }
 
 .CureZombieSet {
-  background-color: white; 
+  background-color: white;
   color: black; 
   border: 2px solid #62fff2;
   position: absolute;
-  top: 200px;
-  left: 1370px;
+  top: 500px;
+  left: 1350px;
 
 }
 
@@ -89,13 +89,28 @@
   color: white;
 }
 
+
+.ResearchButtonSet {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #58c5e6;
+  position: absolute;
+  top: 200px;
+  left: 1350px;
+}
+
+.ResearchButtonSet:hover {
+  background-color: #1a8eec;
+  color: white;
+}
+
 .BuildFarm {
   background-color: white; 
   color: black; 
   border: 2px solid #4CAF50;
   position: absolute;
-  top: 5px;
-  right: 150px;
+  top: 10px;
+  left: 1575px;
 }
 
 .BuildFarm:hover {
@@ -111,7 +126,7 @@
   border: 2px solid #4CAF50;
   position: absolute;
   top: 110px;
-  right: 125px;
+  left: 1575px;
 }
 
 .BuildWare:hover {
@@ -120,14 +135,13 @@
 }
 
 
-
 .BuildMed {
   background-color: white; 
   color: black; 
   border: 2px solid #62fff2;
   position: absolute;
   top: 410px;
-  right: 120px;
+  left: 1575px;
 }
 
 .BuildMed:hover {
@@ -141,7 +155,7 @@
   border: 2px solid #008CBA;
   position: absolute;
   top: 210px;
-  right: 125px;
+  left: 1575px;
 }
 
 .Workshop:hover {
@@ -155,10 +169,24 @@
   border: 2px solid #008CBA;
   position: absolute;
   top: 310px;
-  right: 130px;
+  left: 1575px;
 }
 
 .Storage:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+.Lab {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #0ad2ec;
+  position: absolute;
+  top: 510px;
+  left: 1575px;
+}
+
+.Lab:hover {
   background-color: #008CBA;
   color: white;
 }
@@ -189,14 +217,17 @@
 </style>
 </head>
 <body>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;" id="foodAssigned">Scavenge <br /> Food <br><br> Humans: 0</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;" id="matAssigned">Scavenge <br /> Building Materials <br><br> Humans: 0</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;" id="scareAssigned">Scare <br /> Zombies <br><br> Humans: 0</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;" id="cureAssigned">Cure <br /> Zombies <br><br> Humans: 0</div>
-    <button class="button ScavengeFoodButtonSet" onclick="assignPop(fodAssign, 0, foodAssigned)">SEND</button>
-    <button class="button ScavengeMaterialsSet" onclick="assignPop(buildAssign, 1, matAssigned)">SEND</button>
-    <button class="button ScareZombiesSet" onclick="assignPop(scareAssign, 2, scareAssigned)">SEND</button>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 400px;background-color: rgb(17, 175, 64);" id="foodAssigned">Scavenge <br /> Food <br><br> Humans: 0</div> 
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;background-color: rgb(207, 142, 21);" id="matAssigned">Scavenge <br /> Building Materials <br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;background-color: rgb(218, 28, 43);" id="scareAssigned">Scare <br /> Zombies <br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 1320px;background-color: rgb(28, 221, 228);" id="cureAssigned">Cure <br /> Zombies</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;background-color: rgb(29, 139, 212);" id="researchAssigned">Research <br/><br><br> Humans: 0</div>
+    <button class="button ScavengeFoodButtonSet" onclick="assignPop(fodAssign, 0, foodAssigned)">ASSIGN</button>
+    <button class="button ScavengeMaterialsSet" onclick="assignPop(buildAssign, 1, matAssigned)">ASSIGN</button>
+    <button class="button ScareZombiesSet" onclick="assignPop(scareAssign, 2, scareAssigned)">ASSIGN</button>
     <button class="button CureZombieSet" onclick="cureZombie()">CURE</button>
+    <button class="button ResearchButtonSet" >ASSIGN</button>
+
 
     <p style="position: absolute; Top: 140px;left: 400px" id="fodAssign">
         <b>Humans Scavenging Food: </b>
@@ -216,8 +247,14 @@
         <input type="number">
     </p>
 
-    <p style="position: absolute; Top: 140px;left:1325px" id="cureAssign">
+    <p style="position: absolute; Top: 430px;left:1325px" id="cureAssign">
       <b>Zombies to Cure: </b>
+      <br>
+      <input type="number">
+    </p>
+
+    <p style="position: absolute; Top: 140px;left:1325px" id="cureAssign">
+      <b>Humans to Research: </b>
       <br>
       <input type="number">
     </p>
@@ -231,6 +268,7 @@
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 710px;" id= "storD"> Storage <br> <br> Amount 0</div>
 
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 1000px;" id= "medD">Medstation <br> <br> Amount 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 1000px;" id= "medD">Lab <br> <br> Amount 0</div>
 
     <!--Buy/Upgrades-->
     <!--Need to replace rate percentages and amount of materials with Values -->
@@ -239,6 +277,7 @@
     <button class="upbutton BuildMed" onclick="buildBuilding(medstation, medB, medD)" id="medB"> Build Medstation (+50%)<br> <br> 250 Materials</button>
     <button class="upbutton Workshop" onclick="buildBuilding(workshop, workB, workD)" id="workB"> Build Workshop (+20%)<br> <br> 125 Materials</button>
     <button class="upbutton Storage" onclick="buildBuilding(storage, storB, storD)" id="storB"> Build Storage (+50/100/5)<br> <br> 150 Materials</button>
+    <button class="upbutton Lab" onclick="buildBuilding(storage, storB, storD)" id="storB"> Build Lab (+50/100/5)<br> <br> 150 Materials</button>
 
 
     
@@ -255,9 +294,9 @@
       </div>
 
       <div class="resource-container">
-        <div class="resource-child"><b>Medicine:</b> </div>
-        <div class="resource-child" id="medicine"> 0</div>
-        <div class="resource-child" id="medRate"> </div>
+        <div class="resource-child"> <b>Zombie Limit:</b> </div>
+        <div class="resource-child" id="zombie"> 0 </div>
+        <div class="resource-child" id="zombieRate"> </div>
       </div>
 
       <div class="resource-container">
@@ -265,11 +304,17 @@
         <div class="resource-child" id="food"> 0</div>
         <div class="resource-child" id="foodRate"> +0/s </div>
       </div>
-      
+
       <div class="resource-container">
         <div class="resource-child"> <b>Materials:</b> </div>
         <div class="resource-child" id="material"> 0 </div>
         <div class="resource-child" id="matRate"> +0/s</div>
+      </div>
+
+      <div class="resource-container">
+        <div class="resource-child"><b>Medicine:</b> </div>
+        <div class="resource-child" id="medicine"> 0</div>
+        <div class="resource-child" id="medRate"> </div>
       </div>
 
       <div class="resource-container">
