@@ -232,7 +232,6 @@ function assignPop(numAssign, occupationAdded, assignmentRecord) {
     //Get the number we're assigning
     let baseAssign = parseInt(numAssign.getElementsByTagName("input")[0].value);
     //Make sure it exists
-    console.log(baseAssign)
     if(isNaN(baseAssign))
         return
     //If there's not enough population to assign, assign as many as possible
@@ -250,9 +249,11 @@ function assignPop(numAssign, occupationAdded, assignmentRecord) {
 //Function for curing population
 function cureZombie() {
     let numCure = parseInt(document.getElementById("cureAssign").getElementsByTagName("input")[0].value);
+    if(isNaN(numCure))
+        return
     //Can't use more medicine than we have or cure more zombies than are around
     numCure = Math.min(resources.medicine, numCure)
-    numCure = Math.max(closeZom, numCure)
+    numCure = Math.min(closeZom, numCure)
     resources.medicine -= numCure;
     availPop += numCure;
     totPop += numCure;
