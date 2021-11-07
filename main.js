@@ -303,12 +303,12 @@ function updateHuman() {
 
 function updateZombie() {
     let zombie = document.getElementById("zombie");
-    zombie.innerHTML = closeZom.toString();
+    zombie.innerHTML = closeZom.toString() + "/" +(totPop*4).toString() + " total:" +totZom.toString();
 }
 
 function updateMed() {
     let med = document.getElementById("medicine");
-    med.innerHTML = resources.medicine.toString() +"/"+ resourceCaps.medicine;
+    med.innerHTML = (Math.round(resources.medicine * 100) / 100).toString() +"/"+ resourceCaps.medicine;
     let fRate = document.getElementById("medRate");
     fRate.innerHTML = resourceChanges.medicine + "/s"
 }
@@ -329,7 +329,7 @@ function updateMaterials() {
 
 function updateScare() {
     let scar = document.getElementById("scare");
-    scar.innerHTML = resources.driven.toString() +"/"+ resourceCaps.driven;
+    scar.innerHTML = (Math.round(resources.driven * 100) / 100).toString() +"/"+ resourceCaps.driven;
     let sRate = document.getElementById("scaRate");
     sRate.innerHTML = resourceChanges.driven + "/s"
 }
