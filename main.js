@@ -405,15 +405,7 @@ function buildBuilding(toBuild, initiatingButton, displayObj){
             resources.materials -= toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned)
             toBuild.Owned += 1
             //Need to figure out what benefit to display
-            let valToShow = ""
-            if(toBuild.Mods[0].mult != 0)
-                valToShow = "" + toBuild.Mods[0].mult * 100 + "%"
-            else{
-                valToShow += toBuild.Mods[0].storage;
-                for(let i = 1; i < toBuild.Mods.length; i++)
-                    valToShow += "/"+ toBuild.Mods[i].storage
-            }
-            initiatingButton.innerHTML = " Build "+toBuild.Name+" (+"+valToShow+")<br> <br> "+ Math.round(toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned) * (1-resources.science/(resources.science + 75 ))*100)/100 +" Materials"
+            updateBuil(toBuild)
             displayObj.innerHTML = " "+toBuild.Name+" <br> <br> Amount "+ toBuild.Owned
         }
     }
@@ -426,7 +418,6 @@ function updateNums() {
     updateFood();
     updateMaterials()
     updateScare();
-    console.log(resourceChanges.materials)
 }
 
 gameLoop();
