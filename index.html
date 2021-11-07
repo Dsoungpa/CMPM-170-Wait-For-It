@@ -221,12 +221,12 @@
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 710px;background-color: rgb(207, 142, 21);" id="matAssigned">Scavenge <br /> Building Materials <br><br> Humans: 0</div>
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1020px;background-color: rgb(218, 28, 43);" id="scareAssigned">Scare <br /> Zombies <br><br> Humans: 0</div>
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 1320px;background-color: rgb(28, 221, 228);" id="cureAssigned">Cure <br /> Zombies</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;background-color: rgb(29, 139, 212);" id="researchAssigned">Research <br/><br><br> Humans: 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;left: 1320px;background-color: rgb(29, 139, 212); visibility: hidden;" id="researchAssigned">Research <br/><br><br> Humans: 0</div>
     <button class="button ScavengeFoodButtonSet" onclick="assignPop(fodAssign, 0, foodAssigned)">ASSIGN</button>
     <button class="button ScavengeMaterialsSet" onclick="assignPop(buildAssign, 1, matAssigned)">ASSIGN</button>
     <button class="button ScareZombiesSet" onclick="assignPop(scareAssign, 2, scareAssigned)">ASSIGN</button>
     <button class="button CureZombieSet" onclick="cureZombie()">CURE</button>
-    <button class="button ResearchButtonSet" >ASSIGN</button>
+    <button class="button ResearchButtonSet" onclick="assignPop(researchAssign, 3, researchAssigned)" id="resBut">ASSIGN</button>
 
 
     <p style="position: absolute; Top: 140px;left: 400px" id="fodAssign">
@@ -253,7 +253,7 @@
       <input type="number">
     </p>
 
-    <p style="position: absolute; Top: 140px;left:1325px" id="cureAssign">
+    <p style="position: absolute; Top: 140px;left:1325px; visibility: hidden;" id="researchAssign">
       <b>Humans to Research: </b>
       <br>
       <input type="number">
@@ -268,16 +268,16 @@
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 710px;" id= "storD"> Storage <br> <br> Amount 0</div>
 
     <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 300px; left: 1000px;" id= "medD">Medstation <br> <br> Amount 0</div>
-    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 1000px;" id= "medD">Lab <br> <br> Amount 0</div>
+    <div style="width:150px;height:50px;text-align:center;padding:40px 16px;border:1px solid #000;position: absolute;top: 500px; left: 1000px; visibility: hidden;" id= "labD">Lab <br> <br> Amount 0</div>
 
     <!--Buy/Upgrades-->
     <!--Need to replace rate percentages and amount of materials with Values -->
-    <button class="upbutton BuildFarm"  onclick="buildBuilding(farm, farmB, farmD)" id="farmB"> Build Farm (+15%)<br> <br> 100 Materials</button>
+    <button class="upbutton BuildFarm"  onclick="buildBuilding(farm, farmB, farmD)" id="farmB"> Build Farm (+20%)<br> <br> 100 Materials</button>
     <button class="upbutton BuildWare" onclick="buildBuilding(warehouse, wareB, wareD)" id="wareB"> Build Warehouse (+100/50/2)<br> <br> 120 Materials</button>
     <button class="upbutton BuildMed" onclick="buildBuilding(medstation, medB, medD)" id="medB"> Build Medstation (+50%)<br> <br> 250 Materials</button>
     <button class="upbutton Workshop" onclick="buildBuilding(workshop, workB, workD)" id="workB"> Build Workshop (+20%)<br> <br> 125 Materials</button>
     <button class="upbutton Storage" onclick="buildBuilding(storage, storB, storD)" id="storB"> Build Storage (+50/100/5)<br> <br> 150 Materials</button>
-    <button class="upbutton Lab" onclick="buildBuilding(storage, storB, storD)" id="storB"> Build Lab (+50/100/5)<br> <br> 150 Materials</button>
+    <button class="upbutton Lab" onclick="buildBuilding(storage, storB, storD)" id="labB"> Build Lab (+50%)<br> <br> 300 Materials</button>
 
 
     
@@ -295,7 +295,7 @@
 
       <div class="resource-container">
         <div class="resource-child"> <b>Zombie Limit:</b> </div>
-        <div class="resource-child" id="zombie"> 0 </div>
+        <div class="resource-child" id="zombieLimit"> 0 </div>
         <div class="resource-child" id="zombieRate"> </div>
       </div>
 

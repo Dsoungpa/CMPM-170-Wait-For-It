@@ -58,12 +58,12 @@ let resourceChanges = { food: 0, materials: 0, medicine: 0, driven: 0, science: 
 //And the multipliers to the production of each
 let resourceMults = {food: 0, materials: 0, medicine: 0, driven: 0, science: 0}
 //And the caps for the resources
-let resourceCaps = {food: 100, materials: 150, medicine: 20, driven: 20, science: 0}
+let resourceCaps = {food: 100, materials: 150, medicine: 20, driven: 20, science: 1000}
 //Occupations
 /** @type {Occupation} */
 let foodScav = {
     Name: "Food Scavaging",
-    Products: [{ resource: "food", quant: 0.15, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
+    Products: [{ resource: "food", quant: 0.15, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.025 }],
     UnlockRequirement: ()=>{return true},
     Enabled: true,
     Assigned: 0
@@ -72,7 +72,7 @@ let foodScav = {
 /** @type {Occupation} */
 let matScav = {
     Name: "Material Scavaging",
-    Products: [{ resource: "materials", quant: 0.25, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
+    Products: [{ resource: "materials", quant: 0.25, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.025 }],
     UnlockRequirement: ()=>{return true},
     Enabled: true,
     Assigned: 0
@@ -92,7 +92,7 @@ let laboratory = {
     Name: "Lab",
     Mods: [{resource: "science", mult: 0.5, storage: 0}],
     Enabled: false,
-    UnlockRequirement: ()=>{totPop >= 30},
+    UnlockRequirement: ()=>{return totPop >= 30},
     BaseCost: 300,
     CostScale: 1.25,
     Owned: 0
@@ -103,7 +103,7 @@ let laboratory = {
 let researching = {
     Name: "Researching",
     Products: [{resource: "science", quant: 0.1, chance: 1}, {resource: "medicine", quant:1, chance: 1}],
-    UnlockRequirement: ()=>{laboratory.Owned > 0},
+    UnlockRequirement: ()=>{return laboratory.Owned > 0},
     Enabled: false,
     Assigned: 0
 }
@@ -176,9 +176,10 @@ let closeZom = 0;
 let totZom = 100000;
 let zomTime = 0;
 let foodRate = 0;
-
+document.getElementById("resBut").style.visibility ="hidden";
+document.getElementById("labB").style.visibility ="hidden";
 function gameLoop() {
-    foodRate = totPop * -0.02;
+    foodRate = totPop * -0.10;
     //Reset prior resource changes
     for (const resourceC in resourceChanges)
         resourceChanges[resourceC] = 0
@@ -229,15 +230,36 @@ function gameLoop() {
         resources[resource] = Math.max(0, resources[resource])
         resources[resource] = Math.min(resources[resource], resourceCaps[resource])
     }
-
+    if(resources.food == 0 && totPop != 1){
+        totPop -= 1;
+        if(availPop > 0)
+            availPop -=1;
+        else{
+            for(let i = 3; i > 0; i--){
+                if(occupations[i].Assigned > 0){
+                    occupations[i].Assigned -= 1
+                    break
+                }
+            }
+        }
+    }
     //Manually check just lab for unlock since no buildings object
-    if(!laboratory.Enabled && laboratory.UnlockRequirement())
+    if(!laboratory.Enabled && laboratory.UnlockRequirement()){
         laboratory.Enabled = true;
+        document.getElementById("labB").style.visibility ="visible";
+        document.getElementById("labD").style.visibility ="visible";
+    }
 
     //Check for unlocks for the occupations
     occupations.forEach((occ)=>{
         if(!occ.Enabled && occ.UnlockRequirement()){
             occ.Enabled = true;
+            //hardcoding because time
+            if(occ.Name == "Researching"){
+                document.getElementById("researchAssign").style.visibility ="visible";
+                document.getElementById("researchAssigned").style.visibility ="visible";
+                document.getElementById("resBut").style.visibility ="visible";
+            }
         }
     })
     
@@ -303,7 +325,9 @@ function updateHuman() {
 
 function updateZombie() {
     let zombie = document.getElementById("zombie");
-    zombie.innerHTML = closeZom.toString() + "/" +(totPop*4).toString() + " total:" +totZom.toString();
+    zombie.innerHTML = closeZom.toString() + ", total:" +totZom.toString();
+    let zombieLim = document.getElementById("zombieLimit");
+    zombieLim.innerHTML = (totPop*4).toString();
 }
 
 function updateMed() {
@@ -350,7 +374,7 @@ function buildBuilding(toBuild, initiatingButton, displayObj){
             //Need to figure out what benefit to display
             let valToShow = ""
             if(toBuild.Mods[0].mult != 0)
-                valToShow = "" + toBuild.Mods[0].mult + "%"
+                valToShow = "" + toBuild.Mods[0].mult * 100 + "%"
             else{
                 valToShow += toBuild.Mods[0].storage;
                 for(let i = 1; i < toBuild.Mods.length; i++)
