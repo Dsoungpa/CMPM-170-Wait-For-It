@@ -230,6 +230,17 @@ function gameLoop() {
         resources[resource] = Math.min(resources[resource], resourceCaps[resource])
     }
 
+    //Manually check just lab for unlock since no buildings object
+    if(!laboratory.Enabled && laboratory.UnlockRequirement())
+        laboratory.Enabled = true;
+
+    //Check for unlocks for the occupations
+    occupations.forEach((occ)=>{
+        if(!occ.Enabled && occ.UnlockRequirement()){
+            occ.Enabled = true;
+        }
+    })
+    
     //Zombie attack
     if(closeZom >= totPop * 4){
         for (let resource in resources)
@@ -250,6 +261,8 @@ function gameLoop() {
  * @param occupationAdded : {Number}
  */
 function assignPop(numAssign, occupationAdded, assignmentRecord) {
+    if(!occupations[occupationAdded].Enabled)
+        return
     //Get the number we're assigning
     let baseAssign = parseInt(numAssign.getElementsByTagName("input")[0].value);
     //Make sure it exists
