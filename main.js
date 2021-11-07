@@ -21,8 +21,8 @@
 * @typedef {{
 * Name: String,
 * Products: InvGain[],
-* Requirements: Object[],
 * Enabled: Boolean,
+* UnlockRequirement: Function,
 * Assigned: Number
 * }} Occupation
 */
@@ -42,6 +42,7 @@
  * Name: String,
  * Mods: InvMod[],
  * Enabled: Boolean,
+ * UnlockRequirement: Function,
  * BaseCost: Number,
  * CostScale: Number,
  * Owned: Number
@@ -51,19 +52,19 @@
 //Base resources object
 //Driven is a "fake" number used to represent driving off zombies (1 leaves when it hits 1)
 //Code is simpler with it included here
-let resources = { food: 20, materials: 30, medicine: 3, driven: 0};
+let resources = { food: 20, materials: 30, medicine: 3, driven: 0, science: 0};
 //Also store the change in each resource
-let resourceChanges = { food: 0, materials: 0, medicine: 0, driven: 0 };
+let resourceChanges = { food: 0, materials: 0, medicine: 0, driven: 0, science: 0 };
 //And the multipliers to the production of each
-let resourceMults = {food: 0, materials: 0, medicine: 0, driven: 0}
+let resourceMults = {food: 0, materials: 0, medicine: 0, driven: 0, science: 0}
 //And the caps for the resources
-let resourceCaps = {food: 100, materials: 150, medicine: 20, driven: 20}
+let resourceCaps = {food: 100, materials: 150, medicine: 20, driven: 20, science: 0}
 //Occupations
 /** @type {Occupation} */
 let foodScav = {
     Name: "Food Scavaging",
-    Products: [{ resource: "food", quant: 0.25, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
-    Requirements: [],
+    Products: [{ resource: "food", quant: 0.15, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
+    UnlockRequirement: ()=>{return true},
     Enabled: true,
     Assigned: 0
 }
@@ -72,7 +73,7 @@ let foodScav = {
 let matScav = {
     Name: "Material Scavaging",
     Products: [{ resource: "materials", quant: 0.25, chance: 1 }, { resource: "medicine", quant: 1, chance: 0.05 }],
-    Requirements: [],
+    UnlockRequirement: ()=>{return true},
     Enabled: true,
     Assigned: 0
 }
@@ -81,26 +82,39 @@ let matScav = {
 let protecting = {
     Name: "Scaring off zombies",
     Products: [{ resource: "driven", quant: 0.2, chance: 1 }],
-    Requirements: [],
-    Enabled: true,
-    Assigned: 0
-}
-//Pretty much everything about curing has to be special cased because it deals with resources outside of the resources object
-/** @type {Occupation} */
-let curing = {
-    Name: "Scaring off zombies",
-    Products: [],
-    Requirements: [],
+    UnlockRequirement: ()=>{return true},
     Enabled: true,
     Assigned: 0
 }
 
-//Defining all the buildings here
+/** @type {Building} */
+let laboratory = {
+    Name: "Lab",
+    Mods: [{resource: "science", mult: 0.5, storage: 0}],
+    Enabled: false,
+    UnlockRequirement: ()=>{totPop >= 30},
+    BaseCost: 300,
+    CostScale: 1.25,
+    Owned: 0
+}
+
+
+/** @type {Occupation} */
+let researching = {
+    Name: "Researching",
+    Products: [{resource: "science", quant: 0.1, chance: 1}, {resource: "medicine", quant:1, chance: 1}],
+    UnlockRequirement: ()=>{laboratory.Owned > 0},
+    Enabled: false,
+    Assigned: 0
+}
+
+//Defining all the buildings here (except lab which was defined earlier for referencing reasons)
 /** @type {Building} */
 let farm = {
     Name: "Farm",
-    Mods: [{resource: "food", mult: 0.15, storage: 0}],
+    Mods: [{resource: "food", mult: 0.2, storage: 0}],
     Enabled: true,
+    UnlockRequirement: ()=>{return true},
     BaseCost: 100,
     CostScale: 1.2,
     Owned: 0
@@ -114,6 +128,7 @@ let warehouse = {
     BaseCost: 120,
     CostScale: 1.1,
     Enabled: true,
+    UnlockRequirement: ()=>{return true},
     Owned: 0
 }
 
@@ -122,6 +137,7 @@ let workshop = {
     Name: "Workshop",
     Mods: [{resource: "materials", mult: 0.2, storage: 0}],
     Enabled: true,
+    UnlockRequirement: ()=>{return true},
     BaseCost: 125,
     CostScale: 1.25,
     Owned: 0
@@ -133,6 +149,7 @@ let storage = {
     Mods: [{resource: "food", mult: 0, storage: 50}, {resource: "materials", mult: 0, storage: 100},
         {resource: "medicine", mult: 0, storage: 5}],
     Enabled: true,
+    UnlockRequirement: ()=>{return true},
     BaseCost: 150,
     CostScale: 1.2,
     Owned: 0
@@ -143,6 +160,7 @@ let medstation = {
     Name: "Medstation",
     Mods: [{resource: "medicine", mult: 0.5, storage: 5}],
     Enabled: true,
+    UnlockRequirement: ()=>{return true},
     BaseCost: 250,
     CostScale: 1.2,
     Owned: 0
@@ -151,7 +169,7 @@ let medstation = {
 //How long it takes for an update tick to happen(in ms)
 let tickRate = 1000;
 
-let occupations = [foodScav, matScav, protecting, curing]
+let occupations = [foodScav, matScav, protecting, researching]
 let totPop = 3;
 let availPop = 3;
 let closeZom = 0;
@@ -203,8 +221,9 @@ function gameLoop() {
     //And being driven off
     //slightly more complex than it needs to be to deal with having many kicking zombies out
     if (resources.driven >= 1 && closeZom >= 1) {
-        closeZom -= Math.min(Math.floor(resources.driven), closeZom)
-        resources.driven = 0;
+        let drivenNum = Math.min(Math.floor(resources.driven), closeZom)
+        closeZom -= drivenNum
+        resources.driven -=drivenNum
     }
     for (const resource in resources){
         resources[resource] = Math.max(0, resources[resource])
@@ -219,6 +238,8 @@ function gameLoop() {
         closeZom = 0;
     }
     updateNums();
+    if(totZom == 0)
+        alert("Congratulations! You've cured all infected zombies, and completed the game. You can keep playing, but there's no additional content past this point")
 }
 
 //Function for manually assigning population to a task
@@ -306,7 +327,7 @@ function updateScare() {
  */
 function buildBuilding(toBuild, initiatingButton, displayObj){
     if(toBuild.Enabled){
-        if(resources.materials >= toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned)){
+        if(resources.materials >= toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned) * (1-resources.science/(resources.science + 75 ))){
             toBuild.Mods.forEach((mod) => {
                 resourceCaps[mod.resource] += mod.storage
                 resourceMults[mod.resource] += mod.mult
