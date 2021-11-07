@@ -45,7 +45,9 @@
  * UnlockRequirement: Function,
  * BaseCost: Number,
  * CostScale: Number,
- * Owned: Number
+ * DisplayCost: Number,
+ * Owned: Number,
+ * DispObject: String
  * }} Building
  */
 //change BastCost to a list of key/value pairs to have more varied costs than just resources
@@ -59,6 +61,10 @@ let resourceChanges = { food: 0, materials: 0, medicine: 0, driven: 0, science: 
 let resourceMults = {food: 0, materials: 0, medicine: 0, driven: 0, science: 0}
 //And the caps for the resources
 let resourceCaps = {food: 100, materials: 150, medicine: 20, driven: 20, science: 1000}
+
+document.getElementById("resBut").style.visibility ="hidden";
+document.getElementById("labB").style.visibility ="hidden";
+
 //Occupations
 /** @type {Occupation} */
 let foodScav = {
@@ -90,11 +96,13 @@ let protecting = {
 /** @type {Building} */
 let laboratory = {
     Name: "Lab",
-    Mods: [{resource: "science", mult: 0.5, storage: 0}],
+    Mods: [{resource: "science", mult: 0.5, storage: 100}],
     Enabled: false,
     UnlockRequirement: ()=>{return totPop >= 30},
     BaseCost: 300,
     CostScale: 1.25,
+    DisplayCost: 300,
+    DispObject: "labB",
     Owned: 0
 }
 
@@ -102,7 +110,7 @@ let laboratory = {
 /** @type {Occupation} */
 let researching = {
     Name: "Researching",
-    Products: [{resource: "science", quant: 0.1, chance: 1}, {resource: "medicine", quant:1, chance: 1}],
+    Products: [{resource: "science", quant: 1, chance: 1}, {resource: "medicine", quant:1, chance: 1}],
     UnlockRequirement: ()=>{return laboratory.Owned > 0},
     Enabled: false,
     Assigned: 0
@@ -117,6 +125,8 @@ let farm = {
     UnlockRequirement: ()=>{return true},
     BaseCost: 100,
     CostScale: 1.2,
+    DisplayCost: 100,
+    DispObject: "farmB",
     Owned: 0
 }
 
@@ -127,6 +137,8 @@ let warehouse = {
         {resource: "medicine", mult: 0, storage: 2}],
     BaseCost: 120,
     CostScale: 1.1,
+    DisplayCost: 120,
+    DispObject: "wareB",
     Enabled: true,
     UnlockRequirement: ()=>{return true},
     Owned: 0
@@ -140,6 +152,8 @@ let workshop = {
     UnlockRequirement: ()=>{return true},
     BaseCost: 125,
     CostScale: 1.25,
+    DisplayCost: 125,
+    DispObject: "workB",
     Owned: 0
 }
 
@@ -152,6 +166,8 @@ let storage = {
     UnlockRequirement: ()=>{return true},
     BaseCost: 150,
     CostScale: 1.2,
+    DisplayCost: 150,
+    DispObject: "storB",
     Owned: 0
 }
 
@@ -163,6 +179,8 @@ let medstation = {
     UnlockRequirement: ()=>{return true},
     BaseCost: 250,
     CostScale: 1.2,
+    DisplayCost: 250,
+    DispObject: "medB",
     Owned: 0
 }
 
@@ -176,8 +194,7 @@ let closeZom = 0;
 let totZom = 100000;
 let zomTime = 0;
 let foodRate = 0;
-document.getElementById("resBut").style.visibility ="hidden";
-document.getElementById("labB").style.visibility ="hidden";
+let buildings = [farm, workshop, storage, medstation, warehouse, laboratory]
 function gameLoop() {
     foodRate = totPop * -0.10;
     //Reset prior resource changes
@@ -262,7 +279,8 @@ function gameLoop() {
             }
         }
     })
-    
+    //Update displayed costs
+    buildings.forEach(updateBuil)
     //Zombie attack
     if(closeZom >= totPop * 4){
         for (let resource in resources)
@@ -357,6 +375,21 @@ function updateScare() {
     let sRate = document.getElementById("scaRate");
     sRate.innerHTML = resourceChanges.driven + "/s"
 }
+/**
+ * 
+ * @param {Building} buildingInstance 
+ */
+function updateBuil(buildingInstance){
+    let valToShow = ""
+    if(buildingInstance.Mods[0].mult != 0)
+        valToShow = "" + buildingInstance.Mods[0].mult * 100 + "%"
+    else{
+        valToShow += buildingInstance.Mods[0].storage;
+        for(let i = 1; i < buildingInstance.Mods.length; i++)
+            valToShow += "/"+ buildingInstance.Mods[i].storage
+    }
+    document.getElementById(buildingInstance.DispObject).innerHTML = " Build "+buildingInstance.Name+" (+"+valToShow+")<br> <br> "+ Math.round(buildingInstance.BaseCost * Math.pow((1+ buildingInstance.CostScale), buildingInstance.Owned) * (1-resources.science/(resources.science + 75 ))*100)/100 +" Materials"
+}
 //Handles building of things
 /**
  * 
@@ -380,7 +413,7 @@ function buildBuilding(toBuild, initiatingButton, displayObj){
                 for(let i = 1; i < toBuild.Mods.length; i++)
                     valToShow += "/"+ toBuild.Mods[i].storage
             }
-            initiatingButton.innerHTML = " Build "+toBuild.Name+" (+"+valToShow+")<br> <br> "+ Math.round(toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned)*100)/100 +" Materials"
+            initiatingButton.innerHTML = " Build "+toBuild.Name+" (+"+valToShow+")<br> <br> "+ Math.round(toBuild.BaseCost * Math.pow((1+ toBuild.CostScale), toBuild.Owned) * (1-resources.science/(resources.science + 75 ))*100)/100 +" Materials"
             displayObj.innerHTML = " "+toBuild.Name+" <br> <br> Amount "+ toBuild.Owned
         }
     }
