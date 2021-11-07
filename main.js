@@ -192,10 +192,6 @@ function gameLoop() {
     })
     resources.food += foodRate;
     resourceChanges.food += foodRate
-    for (const resource in resources){
-        resources[resource] = Math.max(0, resources[resource])
-        resources[resource] = Math.min(resources[resource], resourceCaps[resource])
-    }
     for (const resourceC in resourceChanges)
         resourceChanges[resourceC] = resourceChanges[resourceC].toFixed(2)
     //handles zombie arrivals
@@ -210,7 +206,17 @@ function gameLoop() {
         closeZom -= Math.min(Math.floor(resources.driven), closeZom)
         resources.driven = 0;
     }
+    for (const resource in resources){
+        resources[resource] = Math.max(0, resources[resource])
+        resources[resource] = Math.min(resources[resource], resourceCaps[resource])
+    }
 
+    //Zombie attack
+    if(closeZom >= totPop * 4){
+        for (let resource in resources)
+            resources[resource] *= 0.1
+        alert("You have been attacked by zombies! Assign people to scare off zombies or cure neaby zombies to prevent the local zombies from building up, to avoid this happening again.")
+    }
     updateNums();
 }
 
