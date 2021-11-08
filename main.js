@@ -247,6 +247,8 @@ function gameLoop() {
         resources[resource] = Math.max(0, resources[resource])
         resources[resource] = Math.min(resources[resource], resourceCaps[resource])
     }
+    if(closeZom == 0)
+        resources.driven = 0;
     if(resources.food == 0 && totPop != 1){
         totPop -= 1;
         if(availPop > 0)
@@ -343,7 +345,7 @@ function updateHuman() {
 
 function updateZombie() {
     let zombie = document.getElementById("zombie");
-    zombie.innerHTML = closeZom.toString() + ", total:" +totZom.toString();
+    zombie.innerHTML = "Local: " + closeZom.toString() + ", total:" +totZom.toString();
     let zombieLim = document.getElementById("zombieLimit");
     zombieLim.innerHTML = (totPop*4).toString();
 }
